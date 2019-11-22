@@ -116,10 +116,26 @@ namespace ApiChat3.Controllers
             return db.Message.Count(e => e.IdMessage == id) > 0;
         }
 
-        public List<Message> getMessagesDiscussion(int IdDiscussion)
+        public List<MessageUtilisateur> getMessagesDiscussion(int IdDiscussion)
         {
+            List<MessageUtilisateur> messagesUtilisateur = new List<MessageUtilisateur>();
             List<Message> messages = (from m in db.Message where m.IdDiscussion == IdDiscussion select m).ToList();
-            return messages;
+            foreach (var item in messages)
+            {
+                Utilisateur utilisateur = (from u in db.Utilisateur where u.IdUtilisateur == item.IdUtilisateur select u).First();
+                MessageUtilisateur messageUtilisateur = new MessageUtilisateur();
+                messageUtilisateur.PseudoUtilisateur = utilisateur.PseudoUtilisateur;
+                messageUtilisateur.IdMessage = item.IdMessage;
+                messageUtilisateur.IdTon = item.IdTon;
+                messageUtilisateur.IdUtilisateur = item.IdUtilisateur;
+                messageUtilisateur.DateEnvoi = item.DateEnvoi;
+                messageUtilisateur.TexteMessage = item.TexteMessage;
+                messageUtilisateur.IdDiscussion = item.IdDiscussion;
+                
+                messageUtilisateur.StatutMessage = item.StatutMessage;
+                messagesUtilisateur.Add(messageUtilisateur);
+            }
+            return messagesUtilisateur;
         }
     }
 }
