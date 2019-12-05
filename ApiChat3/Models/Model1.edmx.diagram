@@ -35,6 +35,7 @@
         <AssociationConnector Association="Chat2Model.FK__Notificat__IdTyp__4F7CD00D" ManuallyRouted="false" />
         <AssociationConnector Association="Chat2Model.FK__Utilisate__IdSta__2EA5EC27" ManuallyRouted="false" />
         <AssociationConnector Association="Chat2Model.FK__Utilisate__IdUti__5629CD9C" ManuallyRouted="false" />
+        <AssociationConnector Association="Chat2Model.FK__Discussio__IdCre__0C1BC9F9" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -17,7 +17,7 @@ namespace ApiChat3.Controllers
     public class DiscussionsController : ApiController
     {
         private Chat2Entities db = new Chat2Entities();
-
+        Worflow worflow = new Worflow();
         // GET: api/Discussions
         public IQueryable<Discussion> GetDiscussion()
         {
@@ -86,6 +86,40 @@ namespace ApiChat3.Controllers
 
             return CreatedAtRoute("DefaultApi", new { id = discussion.IdDiscussion }, discussion);
         }
+
+        public async Task<IHttpActionResult> CreerDiscussion(string titre,string description)
+        {
+            Discussion discussion = new Discussion();
+            discussion.DateCreationDiscussion = DateTime.Now;
+            discussion.DescriptionDiscussion = description;
+            discussion.IdStatutDiscussion = 1;
+            discussion.IdTypeDiscussion = 2;
+            discussion.TitreDiscussion = titre;
+            discussion.StatutDiscussion = 1;
+            discussion.TokenDiscussion = worflow.createToken();
+            int tokenExist = (from d in db.Discussion where d.TokenDiscussion==discussion.TokenDiscussion select d).Count();
+            if (tokenExist > 0)
+            {
+                while (tokenExist > 0)
+                {
+                    discussion.TokenDiscussion = worflow.createToken();
+                    tokenExist = (from d in db.Discussion where d.TokenDiscussion == discussion.TokenDiscussion select d).Count();
+                }
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            db.Discussion.Add(discussion);
+            await db.SaveChangesAsync();
+
+            return CreatedAtRoute("DefaultApi", new { id = discussion.IdDiscussion }, discussion);
+        }
+
+
+
+
 
         // DELETE: api/Discussions/5
         [ResponseType(typeof(Discussion))]

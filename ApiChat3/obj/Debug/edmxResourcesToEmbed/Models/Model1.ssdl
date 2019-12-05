@@ -27,6 +27,7 @@
     <Property Name="IdTypeDiscussion" Type="int" Nullable="false" />
     <Property Name="IdStatutDiscussion" Type="int" Nullable="false" />
     <Property Name="TokenDiscussion" Type="varchar(max)" />
+    <Property Name="IdCreateur" Type="int" />
   </EntityType>
   <EntityType Name="Image">
     <Key>
@@ -137,6 +138,18 @@
     <Property Name="IdDiscussion" Type="int" Nullable="false" />
     <Property Name="IdNiveau" Type="int" Nullable="false" />
   </EntityType>
+  <Association Name="FK__Discussio__IdCre__0C1BC9F9">
+    <End Role="Utilisateur" Type="Self.Utilisateur" Multiplicity="0..1" />
+    <End Role="Discussion" Type="Self.Discussion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Utilisateur">
+        <PropertyRef Name="IdUtilisateur" />
+      </Principal>
+      <Dependent Role="Discussion">
+        <PropertyRef Name="IdCreateur" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__Discussio__IdSta__4CA06362">
     <End Role="StatutDiscussion" Type="Self.StatutDiscussion" Multiplicity="1" />
     <End Role="Discussion" Type="Self.Discussion" Multiplicity="*" />
@@ -333,6 +346,10 @@
     <EntitySet Name="TypeNotification" EntityType="Self.TypeNotification" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Utilisateur" EntityType="Self.Utilisateur" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UtilisateurDiscussion" EntityType="Self.UtilisateurDiscussion" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Discussio__IdCre__0C1BC9F9" Association="Self.FK__Discussio__IdCre__0C1BC9F9">
+      <End Role="Utilisateur" EntitySet="Utilisateur" />
+      <End Role="Discussion" EntitySet="Discussion" />
+    </AssociationSet>
     <AssociationSet Name="FK__Discussio__IdSta__4CA06362" Association="Self.FK__Discussio__IdSta__4CA06362">
       <End Role="StatutDiscussion" EntitySet="StatutDiscussion" />
       <End Role="Discussion" EntitySet="Discussion" />

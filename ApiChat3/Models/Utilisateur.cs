@@ -22,6 +22,7 @@ namespace ApiChat3.Models
             this.Notification = new HashSet<Notification>();
             this.Notification1 = new HashSet<Notification>();
             this.UtilisateurDiscussion = new HashSet<UtilisateurDiscussion>();
+            this.Discussion = new HashSet<Discussion>();
         }
     
         public int IdUtilisateur { get; set; }
@@ -51,5 +52,7 @@ namespace ApiChat3.Models
         public virtual StatutUtilisateur StatutUtilisateur { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UtilisateurDiscussion> UtilisateurDiscussion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Discussion> Discussion { get; set; }
     }
 }
