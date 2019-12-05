@@ -9,7 +9,6 @@
 
 namespace ApiChat3.Models
 {
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -18,7 +17,7 @@ namespace ApiChat3.Models
         public int IdMaintenance { get; set; }
         public string DescriptionMaintenance { get; set; }
         public int IdUtilisateur { get; set; }
-        [JsonIgnore]
+    
         public virtual Utilisateur Utilisateur { get; set; }
     }
 }

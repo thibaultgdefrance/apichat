@@ -29,6 +29,8 @@ namespace ApiChat3.Models
         public Nullable<byte> StatutDiscussion { get; set; }
         public int IdTypeDiscussion { get; set; }
         public int IdStatutDiscussion { get; set; }
+        public string TokenDiscussion { get; set; }
+    
         [JsonIgnore]
         public virtual StatutDiscussion StatutDiscussion1 { get; set; }
         [JsonIgnore]

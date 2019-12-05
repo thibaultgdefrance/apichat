@@ -9,7 +9,6 @@
 
 namespace ApiChat3.Models
 {
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -22,11 +21,9 @@ namespace ApiChat3.Models
         public int IdDestinataire { get; set; }
         public Nullable<int> IdDiscussion { get; set; }
         public int IdTypeNotification { get; set; }
-        [JsonIgnore]
+    
         public virtual Utilisateur Utilisateur { get; set; }
-        [JsonIgnore]
         public virtual Utilisateur Utilisateur1 { get; set; }
-        [JsonIgnore]
         public virtual TypeNotification TypeNotification { get; set; }
     }
 }

@@ -86,6 +86,30 @@ namespace ApiChat3.Controllers
             return CreatedAtRoute("DefaultApi", new { id = message.IdMessage }, message);
         }
 
+        // POST: api/Messages
+        [ResponseType(typeof(Message))]
+        public async Task<IHttpActionResult> PostMessageAjax(string tokenUtilisateur,string tokenDiscussion,string texteMessage)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Message message = new Message();
+            message.IdDiscussion = (from d in db.Discussion where d.TokenDiscussion==tokenDiscussion select d.IdDiscussion).First();
+            message.TexteMessage = texteMessage;
+            message.IdUtilisateur = (from u in db.Utilisateur where u.TokenUtilisateur == tokenUtilisateur select u.IdUtilisateur).First();
+            message.StatutMessage = 1;
+            message.IdTon = 1;
+            message.DateEnvoi = DateTime.Now;
+            db.Message.Add(message);
+            await db.SaveChangesAsync();
+
+            return CreatedAtRoute("DefaultApi", new { id = message.IdMessage }, message);
+        }
+
+
+
         // DELETE: api/Messages/5
         [ResponseType(typeof(Message))]
         public async Task<IHttpActionResult> DeleteMessage(int id)
@@ -116,26 +140,38 @@ namespace ApiChat3.Controllers
             return db.Message.Count(e => e.IdMessage == id) > 0;
         }
 
-        public List<MessageUtilisateur> getMessagesDiscussion(int IdDiscussion)
+        public List<MessageUtilisateur> getMessagesDiscussion(string tokenDiscussion)
         {
-            List<MessageUtilisateur> messagesUtilisateur = new List<MessageUtilisateur>();
-            List<Message> messages = (from m in db.Message where m.IdDiscussion == IdDiscussion select m).ToList();
-            foreach (var item in messages)
+            try
             {
-                Utilisateur utilisateur = (from u in db.Utilisateur where u.IdUtilisateur == item.IdUtilisateur select u).First();
-                MessageUtilisateur messageUtilisateur = new MessageUtilisateur();
-                messageUtilisateur.PseudoUtilisateur = utilisateur.PseudoUtilisateur;
-                messageUtilisateur.IdMessage = item.IdMessage;
-                messageUtilisateur.IdTon = item.IdTon;
-                messageUtilisateur.IdUtilisateur = item.IdUtilisateur;
-                messageUtilisateur.DateEnvoi = item.DateEnvoi;
-                messageUtilisateur.TexteMessage = item.TexteMessage;
-                messageUtilisateur.IdDiscussion = item.IdDiscussion;
-                
-                messageUtilisateur.StatutMessage = item.StatutMessage;
-                messagesUtilisateur.Add(messageUtilisateur);
+                Discussion discussion = (from d in db.Discussion where d.TokenDiscussion == tokenDiscussion select d).First();
+                int IdDiscussion = discussion.IdDiscussion;
+                List<MessageUtilisateur> messagesUtilisateur = new List<MessageUtilisateur>();
+                List<Message> messages = (from m in db.Message where m.IdDiscussion == IdDiscussion select m).ToList();
+                foreach (var item in messages)
+                {
+                    Utilisateur utilisateur = (from u in db.Utilisateur where u.IdUtilisateur == item.IdUtilisateur select u).First();
+                    MessageUtilisateur messageUtilisateur = new MessageUtilisateur();
+                    messageUtilisateur.PseudoUtilisateur = utilisateur.PseudoUtilisateur;
+                    messageUtilisateur.IdMessage = item.IdMessage;
+                    messageUtilisateur.IdTon = item.IdTon;
+                    messageUtilisateur.IdUtilisateur = item.IdUtilisateur;
+                    messageUtilisateur.DateEnvoi = item.DateEnvoi;
+                    messageUtilisateur.TexteMessage = item.TexteMessage;
+                    messageUtilisateur.IdDiscussion = item.IdDiscussion;
+
+                    messageUtilisateur.StatutMessage = item.StatutMessage;
+                    messagesUtilisateur.Add(messageUtilisateur);
+                }
+                return messagesUtilisateur;
             }
-            return messagesUtilisateur;
+            catch (Exception)
+            {
+
+                return null;
+            }
+            
+            
         }
     }
 }
