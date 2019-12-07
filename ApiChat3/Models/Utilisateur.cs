@@ -9,6 +9,7 @@
 
 namespace ApiChat3.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -17,12 +18,12 @@ namespace ApiChat3.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Utilisateur()
         {
+            this.Discussion = new HashSet<Discussion>();
             this.Maintenance = new HashSet<Maintenance>();
             this.Message = new HashSet<Message>();
             this.Notification = new HashSet<Notification>();
             this.Notification1 = new HashSet<Notification>();
             this.UtilisateurDiscussion = new HashSet<UtilisateurDiscussion>();
-            this.Discussion = new HashSet<Discussion>();
         }
     
         public int IdUtilisateur { get; set; }
@@ -38,21 +39,29 @@ namespace ApiChat3.Models
         public int IdAcces { get; set; }
         public Nullable<int> IdStatutUtilisateur { get; set; }
         public string TokenUtilisateur { get; set; }
-    
+        [JsonIgnore]
         public virtual Acces Acces { get; set; }
+        [JsonIgnore]
         public virtual Avatar Avatar { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
+        public virtual ICollection<Discussion> Discussion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
         public virtual ICollection<Maintenance> Maintenance { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
         public virtual ICollection<Message> Message { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
         public virtual ICollection<Notification> Notification { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
         public virtual ICollection<Notification> Notification1 { get; set; }
+        [JsonIgnore]
         public virtual StatutUtilisateur StatutUtilisateur { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
         public virtual ICollection<UtilisateurDiscussion> UtilisateurDiscussion { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Discussion> Discussion { get; set; }
     }
 }

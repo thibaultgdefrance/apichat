@@ -21,8 +21,6 @@
     <EntitySetMapping Name="Discussion">
       <EntityTypeMapping TypeName="Chat2Model.Discussion">
         <MappingFragment StoreEntitySet="Discussion">
-          <ScalarProperty Name="IdCreateur" ColumnName="IdCreateur" />
-          <ScalarProperty Name="TokenDiscussion" ColumnName="TokenDiscussion" />
           <ScalarProperty Name="IdDiscussion" ColumnName="IdDiscussion" />
           <ScalarProperty Name="TitreDiscussion" ColumnName="TitreDiscussion" />
           <ScalarProperty Name="DateCreationDiscussion" ColumnName="DateCreationDiscussion" />
@@ -30,6 +28,8 @@
           <ScalarProperty Name="StatutDiscussion" ColumnName="StatutDiscussion" />
           <ScalarProperty Name="IdTypeDiscussion" ColumnName="IdTypeDiscussion" />
           <ScalarProperty Name="IdStatutDiscussion" ColumnName="IdStatutDiscussion" />
+          <ScalarProperty Name="TokenDiscussion" ColumnName="TokenDiscussion" />
+          <ScalarProperty Name="IdCreateur" ColumnName="IdCreateur" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

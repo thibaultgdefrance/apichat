@@ -9,6 +9,7 @@
 
 namespace ApiChat3.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -30,13 +31,18 @@ namespace ApiChat3.Models
         public int IdStatutDiscussion { get; set; }
         public string TokenDiscussion { get; set; }
         public Nullable<int> IdCreateur { get; set; }
-    
+        
+        [JsonIgnore]
+        public virtual Utilisateur Utilisateur { get; set; }
+        [JsonIgnore]
         public virtual StatutDiscussion StatutDiscussion1 { get; set; }
+        [JsonIgnore]
         public virtual TypeDiscussion TypeDiscussion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
         public virtual ICollection<Message> Message { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
         public virtual ICollection<UtilisateurDiscussion> UtilisateurDiscussion { get; set; }
-        public virtual Utilisateur Utilisateur { get; set; }
     }
 }

@@ -86,6 +86,30 @@ namespace ApiChat3.Controllers
             return CreatedAtRoute("DefaultApi", new { id = utilisateurDiscussion.IdUtilisateurDiscussion }, utilisateurDiscussion);
         }
 
+
+        [ResponseType(typeof(UtilisateurDiscussion))]
+        public async Task<IHttpActionResult> PostUtilisateurDiscussionToken(string utilisateurToken)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            UtilisateurDiscussion utilisateurDiscussion = new UtilisateurDiscussion();
+            Utilisateur utilisateur = (from u in db.Utilisateur where u.TokenUtilisateur==utilisateurToken select u).First();
+            Discussion discussion = (from d in db.Discussion join u in db.Utilisateur on d.IdCreateur equals u.IdUtilisateur where u.TokenUtilisateur==utilisateurToken orderby d.DateCreationDiscussion descending select d).First();
+            utilisateurDiscussion.IdUtilisateur = utilisateur.IdUtilisateur;
+            utilisateurDiscussion.IdDiscussion = discussion.IdDiscussion;
+            utilisateurDiscussion.IdNiveau = 1;
+            db.UtilisateurDiscussion.Add(utilisateurDiscussion);
+            await db.SaveChangesAsync();
+
+            return CreatedAtRoute("DefaultApi", new { id = utilisateurDiscussion.IdUtilisateurDiscussion }, utilisateurDiscussion);
+        }
+
+
+
+
         // DELETE: api/UtilisateurDiscussions/5
         [ResponseType(typeof(UtilisateurDiscussion))]
         public async Task<IHttpActionResult> DeleteUtilisateurDiscussion(int id)

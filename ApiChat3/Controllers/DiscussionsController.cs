@@ -87,7 +87,7 @@ namespace ApiChat3.Controllers
             return CreatedAtRoute("DefaultApi", new { id = discussion.IdDiscussion }, discussion);
         }
 
-        public async Task<IHttpActionResult> CreerDiscussion(string titre,string description)
+        public async Task<IHttpActionResult> CreerDiscussion(string titre,string description,string tokenUtilisateur)
         {
             Discussion discussion = new Discussion();
             discussion.DateCreationDiscussion = DateTime.Now;
@@ -96,6 +96,7 @@ namespace ApiChat3.Controllers
             discussion.IdTypeDiscussion = 2;
             discussion.TitreDiscussion = titre;
             discussion.StatutDiscussion = 1;
+            discussion.IdCreateur = (from u in db.Utilisateur where u.TokenUtilisateur == tokenUtilisateur select u.IdUtilisateur).First();
             discussion.TokenDiscussion = worflow.createToken();
             int tokenExist = (from d in db.Discussion where d.TokenDiscussion==discussion.TokenDiscussion select d).Count();
             if (tokenExist > 0)

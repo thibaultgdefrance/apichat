@@ -28,13 +28,13 @@
     <Property Name="StatutDiscussion" Type="Byte" />
     <Property Name="IdTypeDiscussion" Type="Int32" Nullable="false" />
     <Property Name="IdStatutDiscussion" Type="Int32" Nullable="false" />
+    <Property Name="TokenDiscussion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="IdCreateur" Type="Int32" />
+    <NavigationProperty Name="Utilisateur" Relationship="Self.FK__Discussio__IdCre__0C1BC9F9" FromRole="Discussion" ToRole="Utilisateur" />
     <NavigationProperty Name="StatutDiscussion1" Relationship="Self.FK__Discussio__IdSta__4CA06362" FromRole="Discussion" ToRole="StatutDiscussion" />
     <NavigationProperty Name="TypeDiscussion" Relationship="Self.FK__Discussio__IdTyp__4BAC3F29" FromRole="Discussion" ToRole="TypeDiscussion" />
     <NavigationProperty Name="Message" Relationship="Self.FK__Message__IdDiscu__5BE2A6F2" FromRole="Discussion" ToRole="Message" />
     <NavigationProperty Name="UtilisateurDiscussion" Relationship="Self.FK__Utilisate__IdDis__571DF1D5" FromRole="Discussion" ToRole="UtilisateurDiscussion" />
-    <Property Name="TokenDiscussion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="IdCreateur" Type="Int32" />
-    <NavigationProperty Name="Utilisateur" Relationship="Chat2Model.FK__Discussio__IdCre__0C1BC9F9" FromRole="Discussion" ToRole="Utilisateur" />
   </EntityType>
   <EntityType Name="Image">
     <Key>
@@ -150,13 +150,13 @@
     <Property Name="TokenUtilisateur" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Acces" Relationship="Self.FK__Utilisate__IdAcc__440B1D61" FromRole="Utilisateur" ToRole="Acces" />
     <NavigationProperty Name="Avatar" Relationship="Self.FK__Utilisate__IdAva__4316F928" FromRole="Utilisateur" ToRole="Avatar" />
+    <NavigationProperty Name="Discussion" Relationship="Self.FK__Discussio__IdCre__0C1BC9F9" FromRole="Utilisateur" ToRole="Discussion" />
     <NavigationProperty Name="Maintenance" Relationship="Self.FK__Maintenan__IdUti__46E78A0C" FromRole="Utilisateur" ToRole="Maintenance" />
     <NavigationProperty Name="Message" Relationship="Self.FK__Message__IdUtili__5AEE82B9" FromRole="Utilisateur" ToRole="Message" />
     <NavigationProperty Name="Notification" Relationship="Self.FK__Notificat__IdCre__5070F446" FromRole="Utilisateur" ToRole="Notification" />
     <NavigationProperty Name="Notification1" Relationship="Self.FK__Notificat__IdDes__5165187F" FromRole="Utilisateur" ToRole="Notification" />
     <NavigationProperty Name="StatutUtilisateur" Relationship="Self.FK__Utilisate__IdSta__2EA5EC27" FromRole="Utilisateur" ToRole="StatutUtilisateur" />
     <NavigationProperty Name="UtilisateurDiscussion" Relationship="Self.FK__Utilisate__IdUti__5629CD9C" FromRole="Utilisateur" ToRole="UtilisateurDiscussion" />
-    <NavigationProperty Name="Discussion" Relationship="Chat2Model.FK__Discussio__IdCre__0C1BC9F9" FromRole="Utilisateur" ToRole="Discussion" />
   </EntityType>
   <EntityType Name="UtilisateurDiscussion">
     <Key>
@@ -191,6 +191,18 @@
       </Principal>
       <Dependent Role="Utilisateur">
         <PropertyRef Name="IdAvatar" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Discussio__IdCre__0C1BC9F9">
+    <End Role="Utilisateur" Type="Self.Utilisateur" Multiplicity="0..1" />
+    <End Role="Discussion" Type="Self.Discussion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Utilisateur">
+        <PropertyRef Name="IdUtilisateur" />
+      </Principal>
+      <Dependent Role="Discussion">
+        <PropertyRef Name="IdCreateur" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -374,6 +386,10 @@
       <End Role="Avatar" EntitySet="Avatar" />
       <End Role="Utilisateur" EntitySet="Utilisateur" />
     </AssociationSet>
+    <AssociationSet Name="FK__Discussio__IdCre__0C1BC9F9" Association="Self.FK__Discussio__IdCre__0C1BC9F9">
+      <End Role="Utilisateur" EntitySet="Utilisateur" />
+      <End Role="Discussion" EntitySet="Discussion" />
+    </AssociationSet>
     <AssociationSet Name="FK__Discussio__IdSta__4CA06362" Association="Self.FK__Discussio__IdSta__4CA06362">
       <End Role="StatutDiscussion" EntitySet="StatutDiscussion" />
       <End Role="Discussion" EntitySet="Discussion" />
@@ -426,21 +442,5 @@
       <End Role="Utilisateur" EntitySet="Utilisateur" />
       <End Role="UtilisateurDiscussion" EntitySet="UtilisateurDiscussion" />
     </AssociationSet>
-    <AssociationSet Name="FK__Discussio__IdCre__0C1BC9F9" Association="Chat2Model.FK__Discussio__IdCre__0C1BC9F9">
-      <End Role="Utilisateur" EntitySet="Utilisateur" />
-      <End Role="Discussion" EntitySet="Discussion" />
-    </AssociationSet>
   </EntityContainer>
-  <Association Name="FK__Discussio__IdCre__0C1BC9F9">
-    <End Type="Chat2Model.Utilisateur" Role="Utilisateur" Multiplicity="0..1" />
-    <End Type="Chat2Model.Discussion" Role="Discussion" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Utilisateur">
-        <PropertyRef Name="IdUtilisateur" />
-      </Principal>
-      <Dependent Role="Discussion">
-        <PropertyRef Name="IdCreateur" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
 </Schema>
